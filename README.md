@@ -29,3 +29,10 @@ Indexing a single character in a rope is O(log n) instead of O(1) because we wal
 ## Edge case
 
 Slicing with a step other than 1 (e.g. `rope[::2]`) forces the rope to materialize the full string, then slices that string, and rebuilds a rope. This is O(n) and is the only operation that loses the rope's efficiency. The API returns a `Rope` for all slices, including stepped ones, to keep the return type consistent.
+
+## Performance
+
+The window keeps a bounded buffer, so `push` is constant time and memory does not
+grow with the length of the stream. `peak` and `trough` are linear in the window
+size, which is the trade that keeps `push` cheap.
+
